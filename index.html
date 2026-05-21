@@ -14,7 +14,7 @@
         :root {
             --bg:           #f0f2f7;
             --bg2:          #e4e8f0;
-            --surface:      rgba(255,255,255,0.82);
+            --surface:      rgba(255,255,255,0.85);
             --surface-solid:#ffffff;
             --surface2:     rgba(255,255,255,0.55);
             --border:       rgba(30,40,80,0.09);
@@ -45,7 +45,7 @@
         [data-theme="dark"] {
             --bg:           #090d1a;
             --bg2:          #0e1525;
-            --surface:      rgba(16,24,44,0.90);
+            --surface:      rgba(16,24,44,0.92);
             --surface-solid:#111827;
             --surface2:     rgba(255,255,255,0.04);
             --border:       rgba(255,255,255,0.07);
@@ -93,7 +93,7 @@
             transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* ── Ambient background orbs ── */
+        /* Ambient background orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -128,7 +128,7 @@
             opacity: 0.5;
         }
 
-        /* ── Layout ── */
+        /* Layout */
         .container {
             width: 100%;
             max-width: 500px;
@@ -139,7 +139,7 @@
             gap: 1.25rem;
         }
 
-        /* ── Top bar ── */
+        /* Top bar */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -173,7 +173,7 @@
             margin-top: 1px;
         }
 
-        /* ── Theme toggle ── */
+        /* Theme toggle */
         .theme-toggle {
             display: flex;
             align-items: center;
@@ -215,19 +215,58 @@
         }
 
         /* ═══════════════════════════════════════════════
-           CARD
+           MODERN RAINBOW ANIMATED BORDER DESIGN
         ═══════════════════════════════════════════════ */
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
         .card {
-            background: var(--surface);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border);
             border-radius: var(--radius-card);
             padding: 2rem;
             box-shadow: var(--shadow-card);
-            transition: background 0.4s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 1;
+            
+            /* Background uses a conic gradient driven by the custom property --angle */
+            background: conic-gradient(
+                from var(--angle),
+                #ff3366,
+                #ff6633,
+                #ffcc33,
+                #33cc66,
+                #3399ff,
+                #9933ff,
+                #ff3366
+            );
+            animation: rotateRainbow 4s linear infinite;
         }
 
+        /* Inner background mask creates the 2px line border effect */
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 2px; 
+            background: var(--surface);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: calc(var(--radius-card) - 2px);
+            z-index: -1;
+            transition: background 0.4s ease;
+        }
+
+        @keyframes rotateRainbow {
+            0% {
+                --angle: 0deg;
+            }
+            100% {
+                --angle: 360deg;
+            }
+        }
+
+        /* ── Card Interior Elements ── */
         .card-title {
             font-family: 'Syne', sans-serif;
             font-size: 1.1rem;
@@ -247,7 +286,6 @@
             font-size: 0.9rem;
         }
 
-        /* ── Form fields ── */
         .field {
             margin-bottom: 1.1rem;
         }
@@ -292,7 +330,6 @@
             color: #0c1733;
         }
 
-        /* ── Calculate button ── */
         .btn-primary {
             width: 100%;
             padding: 0.95rem;
@@ -329,32 +366,7 @@
         }
         .btn-primary:active { transform: translateY(0); }
 
-        .btn-secondary {
-            width: 100%;
-            padding: 0.88rem 1.25rem;
-            background: var(--surface2);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--ink);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.93rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.22s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .btn-secondary:hover {
-            border-color: var(--blue);
-            background: var(--blue-soft);
-            color: var(--blue);
-        }
-
-        /* ═══════════════════════════════════════════════
-           ENHANCEMENT OUTPUT — HERO DISPLAY
-        ═══════════════════════════════════════════════ */
+        /* HERO RESULT DISPLAY */
         .result-hero {
             display: none;
             margin-top: 1.4rem;
@@ -369,7 +381,6 @@
             to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Shimmering gradient top strip */
         .result-hero-strip {
             background: var(--result-grad);
             padding: 1.4rem 1.6rem 1.2rem;
@@ -441,7 +452,6 @@
             text-shadow: 0 2px 12px rgba(0,0,0,0.15);
         }
 
-        /* Bottom info bar */
         .result-meta-bar {
             background: var(--surface-solid);
             padding: 1rem 1.6rem;
@@ -499,9 +509,28 @@
         .copy-btn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
         .copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
 
-        /* ═══════════════════════════════════════════════
-           ACCORDION — Collection Calculator
-        ═══════════════════════════════════════════════ */
+        .btn-reset {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1.5px solid rgba(239,68,68,0.35);
+            border-radius: var(--radius-sm);
+            color: #f87171;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: all 0.22s ease;
+        }
+        .btn-reset:hover {
+            background: rgba(239,68,68,0.1);
+            border-color: #f87171;
+            color: #fca5a5;
+        }
+
+        /* ACCORDION MODULE */
         .accordion-trigger {
             width: 100%;
             display: flex;
@@ -561,9 +590,7 @@
             box-shadow: var(--shadow-card);
         }
 
-        /* ═══════════════════════════════════════════════
-           AGE RESULT GRID
-        ═══════════════════════════════════════════════ */
+        /* COLLECTION RESULT TILES */
         .age-result {
             display: none;
             margin-top: 1.4rem;
@@ -650,51 +677,6 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* ═══════════════════════════════════════════════
-           UTILITIES
-        ═══════════════════════════════════════════════ */
-        @keyframes shimmer {
-            from { background-position: -400px 0; }
-            to   { background-position: 400px 0; }
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            cursor: pointer; opacity: 0.5; filter: invert(0);
-        }
-        [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1); opacity: 0.4;
-        }
-
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 1.4rem 0;
-        }
-
-        /* ── Reset Button ── */
-        .btn-reset {
-            width: 100%;
-            margin-top: 0.75rem;
-            padding: 0.75rem;
-            background: transparent;
-            border: 1.5px solid rgba(239,68,68,0.35);
-            border-radius: var(--radius-sm);
-            color: #f87171;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 0.02em;
-            transition: all 0.22s ease;
-            animation: heroReveal 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
-        }
-        .btn-reset:hover {
-            background: rgba(239,68,68,0.1);
-            border-color: #f87171;
-            color: #fca5a5;
-        }
-
     </style>
 </head>
 <body>
@@ -706,7 +688,6 @@
 
     <div class="container">
 
-        <!-- ── TOP BAR ── -->
         <div class="topbar">
             <div class="brand">
                 <div class="brand-icon">📊</div>
@@ -721,9 +702,6 @@
             </div>
         </div>
 
-        <!-- ══════════════════════════════════
-             CARD: ENHANCEMENT CALCULATOR
-        ══════════════════════════════════ -->
         <div class="card">
             <div class="card-title">
                 <span class="icon-badge">⚡</span>
@@ -749,9 +727,7 @@
                 <span>⚡</span> Enhancement Calculate
             </button>
 
-            <!-- ── HERO RESULT ── -->
             <div class="result-hero" id="creditOutputPanel">
-
                 <div class="result-hero-strip">
                     <div class="result-label">Enhanced Output Strategy</div>
                     <div class="result-value-wrap">
@@ -759,7 +735,6 @@
                         <span class="result-number" id="creditValue">0.00</span>
                     </div>
                 </div>
-
                 <div class="result-meta-bar">
                     <div class="formula-chip">
                         <div class="formula-icon">ƒ</div>
@@ -770,18 +745,13 @@
                     </div>
                     <button class="copy-btn" id="copyBtn" onclick="copyResult()">Copy</button>
                 </div>
-
             </div>
 
-            <!-- ── RESET BUTTON ── -->
             <button class="btn-reset" id="resetBtn" onclick="resetCalculator()" style="display:none;">
                 ↺ Reset
             </button>
         </div>
 
-        <!-- ══════════════════════════════════
-             ACCORDION: COLLECTION CALCULATOR
-        ══════════════════════════════════ -->
         <button class="accordion-trigger" id="accTrigger" onclick="toggleAccordion()">
             <span class="accordion-left">
                 <span class="acc-badge">📅</span>
@@ -792,7 +762,6 @@
 
         <div class="accordion-body" id="accBody">
             <div class="accordion-inner">
-
                 <div class="field">
                     <label class="field-label" for="birthDate">Date of Collection</label>
                     <input class="field-control" type="date" id="birthDate" min="2026-01-01">
@@ -807,10 +776,8 @@
                     <span>📅</span> Calculate Days
                 </button>
 
-                <!-- AGE RESULT -->
                 <div class="age-result" id="photoResultView">
                     <div class="age-result-title">Date Breakdown</div>
-
                     <div class="age-grid">
                         <div class="age-tile">
                             <div class="age-tile-num" id="boxYears">0</div>
@@ -825,20 +792,18 @@
                             <div class="age-tile-label">Days</div>
                         </div>
                     </div>
-
                     <div class="total-bar">
                         <span class="total-bar-label">Total Days Go On</span>
                         <span class="total-bar-num" id="boxTotalDays">0</span>
                     </div>
                 </div>
-
             </div>
         </div>
 
     </div>
 
     <script>
-        /* ─── Init ─── */
+        /* Initialization Logic */
         window.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
             const y = today.getFullYear();
@@ -847,7 +812,7 @@
             document.getElementById('differenceDate').value = `${y}-${m}-${d}`;
         });
 
-        /* ─── Theme toggle ─── */
+        /* Dynamic System Theme Configurations */
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.getAttribute('data-theme') === 'dark';
@@ -855,7 +820,7 @@
             document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
         }
 
-        /* ─── Accordion ─── */
+        /* UI Containers Management */
         function toggleAccordion() {
             const trigger = document.getElementById('accTrigger');
             const body    = document.getElementById('accBody');
@@ -870,7 +835,7 @@
             }
         }
 
-        /* ─── Enhancement Calculator ─── */
+        /* Core Execution Engines */
         let lastResult = 0;
 
         function runCreditExecution() {
@@ -896,7 +861,6 @@
             copyBtn.classList.remove('copied');
             document.getElementById('resetBtn').style.display = 'block';
 
-            // Animated count-up
             panel.style.display = 'block';
             panel.style.animation = 'none';
             void panel.offsetWidth;
@@ -904,6 +868,11 @@
 
             fmtEl.textContent = formula;
             animateNumber(numEl, result);
+
+            const body = document.getElementById('accBody');
+            if (document.getElementById('accTrigger').classList.contains('open')) {
+                body.style.maxHeight = body.scrollHeight + 600 + 'px';
+            }
         }
 
         function animateNumber(el, target) {
@@ -959,7 +928,6 @@
             el.focus();
         }
 
-        /* ─── Collection Calculator ─── */
         function runAgeExecution() {
             const dob  = document.getElementById('birthDate').value;
             const diff = document.getElementById('differenceDate').value;
@@ -992,7 +960,6 @@
             void res.offsetWidth;
             res.style.animation = '';
 
-            // Expand accordion to fit new content
             const body = document.getElementById('accBody');
             body.style.maxHeight = body.scrollHeight + 400 + 'px';
         }
