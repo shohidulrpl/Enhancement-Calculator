@@ -168,21 +168,31 @@
         }
         .brand-sub {
     font-size: 0.7rem;
-    color: #FFD700;
+    color: #B8860B;
     font-weight: 600;
     margin-top: 1px;
     overflow: hidden;
     white-space: nowrap;
     width: 0;
-    border-right: 2px solid #FFD700;
+    border-right: 2px solid currentColor;
     animation: typewriter 2.5s steps(22, end) forwards, blinkCaret 0.75s step-end infinite;
     text-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
 }
 
+[data-theme="dark"] .brand-sub {
+    color: #FFD700;
+}
+
 @keyframes typewriter {
     from { width: 0; }
-    to   { width: 22ch; }
+    to   { width: 20ch; }
 }
+
+@keyframes blinkCaret {
+    from, to { border-color: transparent; }
+    50%      { border-color: currentColor; }
+}
+
 
 @keyframes blinkCaret {
     from, to { border-color: transparent; }
