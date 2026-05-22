@@ -175,7 +175,7 @@
     white-space: nowrap;
     width: 0;
     border-right: 2px solid currentColor;
-    animation: typewriter 2.5s steps(22, end) forwards, blinkCaret 0.75s step-end infinite;
+    animation: typewriter 5s steps(22, end) infinite, blinkCaret 0.75s step-end infinite;
     text-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
 }
 
@@ -184,14 +184,17 @@
 }
 
 @keyframes typewriter {
-    from { width: 0; }
-    to   { width: 20ch; }
+    0%, 100% { width: 0; }
+    35%      { width: 22ch; }
+    75%      { width: 18 ch; }
+    90%      { width: 0; }
 }
 
 @keyframes blinkCaret {
     from, to { border-color: transparent; }
     50%      { border-color: currentColor; }
 }
+
 
 
 @keyframes blinkCaret {
