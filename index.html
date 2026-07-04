@@ -153,7 +153,7 @@
               "name": "What is an Enhancement Calculator?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "An Enhancement Calculator is a finance tool that calculates credit enhancement values based on a customer's average transaction value over the last 90 days, across 30-day, 45-day, and 60-day constraint periods."
+                "text": "An Enhancement Calculator is a finance tool that calculates credit enhancement values based on a customer's average transaction value over the last 90 days, across 30-day, 45-day, 60-day and 90-day constraint periods."
               }
             },
             {
@@ -161,7 +161,7 @@
               "name": "How does the Credit Enhancement Calculator work?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Enter the customer's 90-day average value and select a days constraint (30, 45, or 60). The formulas applied are: 30 days = Average × 2.5, 45 days = (Average × 1.5) × 2.5, 60 days = (Average × 2) × 2.5."
+                "text": "Enter the customer's 90-day average value and select a days constraint (30, 45, 60, or 90). The formulas applied are: 30 days = Average × 2.5, 45 days = Average × 3.75, 60 days = Average × 5, 90 days = Average × 7.5."
               }
             },
             {
@@ -563,9 +563,10 @@
                 <div class="field">
                     <label class="field-label" for="daysSelector">Days Constraint</label>
                     <select class="field-control" id="daysSelector" aria-label="Select days constraint">
-                        <option value="45" selected>45 Days</option>
+                        <option value="30" selected>30 Days</option>
+                        <option value="45">45 Days</option>
                         <option value="60">60 Days</option>
-                        <option value="30">30 Days</option>
+                        <option value="90">90 Days</option>
                     </select>
                 </div>
 
@@ -659,22 +660,23 @@
                     <strong>Enhance Calculator</strong>) is a free, browser-based tool that
                     instantly calculates a customer's credit enhancement value based on their
                     average transaction value over the last 90 days. It supports
-                    <strong>30-day, 45-day, and 60-day</strong> constraint periods used by
+                    <strong>30-day, 45-day, 60-day and 90-day</strong> constraint periods used by
                     finance and collection teams.
                 </p>
 
                 <h2>How to Use the Credit Enhancement Calculator</h2>
                 <ol style="padding-left: 1.25rem; margin: 0.5rem 0; color: var(--ink2); font-size: 0.88rem; line-height: 1.65;">
                     <li>Enter the customer's <strong>last 90 days average value</strong>.</li>
-                    <li>Select a <strong>days constraint</strong> — 30, 45, or 60 days.</li>
+                    <li>Select a <strong>days constraint</strong> — 30, 45, 60 or 90 days.</li>
                     <li>Click <strong>Calculate Enhancement</strong> to view the result.</li>
                  </ol>
 
                 <h2>Enhancement Calculator Formulas</h2>
                 <ul>
                     <li><strong>30 Days:</strong> Average × 2.5</li>
-                    <li><strong>45 Days:</strong> (Average × 1.5) × 2.5</li>
-                    <li><strong>60 Days:</strong> (Average × 2) × 2.5</li>
+                    <li><strong>45 Days:</strong> Average × 3.75</li>
+                    <li><strong>60 Days:</strong> Average × 5</li>
+                    <li><strong>90 Days:</strong> Average × 7.5</li>
                 </ul>
 
                 <h2>Why Choose This Enhance Calculator?</h2>
@@ -689,7 +691,7 @@
                 <h2>Frequently Asked Questions</h2>
 
                 <h3>What is an Enhancement Calculator?</h3>
-                <p>An Enhancement Calculator is a finance tool that computes a customer's credit enhancement value using a formula based on the 90-day average transaction value and a chosen days constraint (30, 45, or 60 days).</p>
+                <p>An Enhancement Calculator is a finance tool that computes a customer's credit enhancement value using a formula based on the 90-day average transaction value and a chosen days constraint (30, 45, 60 or 90 days).</p>
 
                 <h3>Is this Enhance Calculator free?</h3>
                 <p>Yes. The Enhancement Calculator is completely free, works directly in your browser, and requires no signup or download.</p>
@@ -758,9 +760,10 @@
             }
 
             let result = 0, formula = '';
-            if (days === '45')      { result = (average * 1.5) * 2.5; formula = '(Average × 1.5) × 2.5'; }
-            else if (days === '60') { result = (average * 2)   * 2.5; formula = '(Average × 2) × 2.5';   }
-            else if (days === '30') { result = average * 2.5;          formula = 'Average × 2.5';          }
+            if (days === '45')      { result = average * 3.75; formula = 'Average × 3.75'; }
+            else if (days === '60') { result = average * 5;    formula = 'Average × 5';    }
+            else if (days === '30') { result = average * 2.5;  formula = 'Average × 2.5';  }
+            else if (days === '90') { result = average * 7.5;  formula = 'Average × 7.5';  }
 
             lastResult = result;
             copyBtn.textContent = 'Copy';
